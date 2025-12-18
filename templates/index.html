@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bag Virtual Try-On</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="nav-container">
+            <div class="logo">
+                <span>👜</span> TRYON
+            </div>
+            <nav class="nav-links">
+                <a href="#">Home</a>
+                <a href="#">Shop</a>
+                <a href="#">About</a>
+                <a href="#">Contact</a>
+            </nav>
+            <div class="nav-icons">
+                <div class="icon-btn">🔍</div>
+                <div class="icon-btn">☀️</div>
+                <div class="icon-btn">❤️</div>
+                <div class="icon-btn">🛍️</div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Page Title -->
+        <div class="page-title">
+            <h1>Virtual Try-On</h1>
+        </div>
+
+        <!-- Progress Steps -->
+        <div class="progress-steps">
+            <div class="step active">
+                <div class="step-icon">📸</div>
+                <span>Upload Images</span>
+            </div>
+            <div class="step">
+                <div class="step-icon">💳</div>
+                <span>Generate</span>
+            </div>
+            <div class="step">
+                <div class="step-icon">✓</div>
+                <span>Review</span>
+            </div>
+        </div>
+
+        <!-- Main Layout -->
+        <div class="main-layout">
+            <!-- Left: Upload Section -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">📸</div>
+                    <h2>Upload Images</h2>
+                </div>
+
+                <div class="message-stack">
+                    <div class="error-message" id="errorMessage">
+                        <span id="errorText"></span>
+                    </div>
+                    <div class="success-message" id="successMessage">
+                        <span id="successText"></span>
+                    </div>
+                </div>
+
+                <div class="upload-grid">
+                    <!-- Model Image -->
+                    <div class="upload-box" onclick="document.getElementById('modelImageInput').click()">
+                        <div class="upload-header">
+                            <h3>📸 Model Image</h3>
+                            <span class="upload-tag">Required</span>
+                        </div>
+                        <label class="upload-label">
+                            Choose Image
+                        </label>
+                        <input type="file" id="modelImageInput" accept="image/*">
+                        <div class="preview-frame">
+                            <img id="modelPreview" class="preview-image" alt="Model preview">
+                            <span class="placeholder-text" id="modelPlaceholder">
+                                Upload a clear front-facing photo
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- Bag Image -->
+                    <div class="upload-box" onclick="document.getElementById('bagImageInput').click()">
+                        <div class="upload-header">
+                            <h3>👜 Bag Image</h3>
+                            <span class="upload-tag">Required</span>
+                        </div>
+                        <label class="upload-label">
+                            Choose Image
+                        </label>
+                        <input type="file" id="bagImageInput" accept="image/*">
+                        <div class="preview-frame">
+                            <img id="bagPreview" class="preview-image" alt="Bag preview">
+                            <span class="placeholder-text" id="bagPlaceholder">
+                                Use transparent or plain background
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="button-group">
+                    <button id="generateTryonBtn" disabled>
+                        ✨ Generate Try-On
+                    </button>
+                    <button id="generateVideoBtn" disabled>
+                        🎬 Create Video Ad
+                    </button>
+                </div>
+
+                <div class="loading" id="tryonLoading">
+                    <div class="spinner"></div>
+                    <span>Generating virtual try-on...</span>
+                </div>
+
+                <div class="loading" id="videoLoading">
+                    <div class="spinner"></div>
+                    <span>Creating video ad...</span>
+                </div>
+
+                <p class="helper-text">
+                    💡 Tip: Use <span>high-resolution</span> images with good lighting for best results
+                </p>
+            </div>
+
+            <!-- Right: Results Preview -->
+            <div class="results-panel">
+                <h2>Preview</h2>
+
+                <div class="results-section">
+                    <!-- Empty State (shown initially) -->
+                    <div class="empty-state" id="emptyState">
+                        <div class="empty-state-icon">🎨</div>
+                        <p>Your AI-generated results will appear here</p>
+                    </div>
+
+                    <!-- Try-On Result - Full image with letterboxing -->
+                    <div class="result-box" id="tryonResult">
+                        <div class="result-header">
+                            ✨ Virtual Try-On Result
+                        </div>
+                        <div class="result-frame">
+                            <img id="tryonImage" class="result-image" alt="Try-on result">
+                        </div>
+                    </div>
+
+                    <!-- Video Result - Compact, fits below image -->
+                    <div class="result-box" id="videoResult">
+                        <div class="result-header">
+                            🎬 Generated Video Ad
+                        </div>
+                        <video id="videoPlayer" controls>
+                            <source id="videoSource" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/js/main.js"></script>
+</body>
+</html>
