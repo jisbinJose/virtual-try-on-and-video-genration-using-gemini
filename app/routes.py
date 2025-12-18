@@ -14,6 +14,7 @@ from fastapi.templating import Jinja2Templates
 from app.config import RESULTS_DIR, TEMPLATES_DIR
 from app.services.tryon_service import generate_tryon_image
 from app.services.video_service import generate_video_from_image
+from app.services.model_generation_service import generate_ai_model
 
 # Initialize router and templates
 router = APIRouter()
@@ -101,3 +102,53 @@ async def generate_video_endpoint(tryon_image_url: str = Form(...)):
         
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error generating video: {str(e)}")
+    
+@router.post("/generate-ai-model")
+async def generate_ai_model_endpoint(
+    gender: str = Form(...),
+    age_range: str = Form(...),
+    ethnicity: str = Form(...),
+    skin_tone: str = Form(...),
+    body_type: str = Form(...),
+    hair_style: str = Form(...),
+    hair_color: str = Form(...),
+    clothing_style: str = Form(...),
+    pose: str = Form(...)
+):
+    """
+    Generate an AI model image based on user specifications
+    
+    This endpoint uses Gemini Imagen 3 to create realistic human models
+    """
+    try:
+        import uuid
+        unique_id = str(uuid.uuid4())[:8]
+        
+        print(f"🎭 Generating AI model with specifications:")
+        print(f"   Gender: {gender}, Age: {age_range}, Ethnicity: {ethnicity}")
+        print(f"   Skin: {skin_tone}, Body: {body_type}")
+        print(f"   Hair: {hair_style} {hair_color}")
+        print(f"   Style: {clothing_style}, Pose: {pose}")
+        
+        # Generate AI model
+        model_image_url = await generate_ai_model(
+            gender=gender,
+            age_range=age_range,
+            ethnicity=ethnicity,
+            skin_tone=skin_tone,
+            body_type=body_type,
+            hair_style=hair_style,
+            hair_color=hair_color,
+            clothing_style=clothing_style,
+            pose=pose,
+            unique_id=unique_id
+        )
+        
+        return {
+            "success": True,
+            "model_image_url": model_image_url,
+            "message": "AI model generated successfully!"
+        }
+        
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error generating AI model: {str(e)}")

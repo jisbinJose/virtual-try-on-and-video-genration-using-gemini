@@ -72,7 +72,6 @@ async def generate_video_from_image(tryon_image_path: Path) -> str:
                 number_of_videos=1,
                 person_generation="allow_adult",
                 resolution="720p",
-                audio_config="NO_AUDIO"
             )
         )
         

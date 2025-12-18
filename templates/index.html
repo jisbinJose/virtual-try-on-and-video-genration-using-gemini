@@ -70,20 +70,20 @@
                 </div>
 
                 <div class="upload-grid">
-                    <!-- Model Image -->
-                    <div class="upload-box" onclick="document.getElementById('modelImageInput').click()">
+                    <!-- Model Image - UPDATED TO OPEN MODAL -->
+                    <div class="upload-box" onclick="openModelModal()">
                         <div class="upload-header">
                             <h3>📸 Model Image</h3>
                             <span class="upload-tag">Required</span>
                         </div>
                         <label class="upload-label">
-                            Choose Image
+                            Choose or Generate
                         </label>
-                        <input type="file" id="modelImageInput" accept="image/*">
+                        <input type="file" id="modelImageInput" accept="image/*" style="display: none;">
                         <div class="preview-frame">
                             <img id="modelPreview" class="preview-image" alt="Model preview">
                             <span class="placeholder-text" id="modelPlaceholder">
-                                Upload a clear front-facing photo
+                                Click to upload or generate AI model
                             </span>
                         </div>
                     </div>
@@ -161,6 +161,191 @@
                             <source id="videoSource" type="video/mp4">
                             Your browser does not support the video tag.
                         </video>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Model Selection Modal -->
+    <div class="modal-overlay" id="modelModal">
+        <div class="modal-container">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h3>Select Model Image</h3>
+                <button class="modal-close" id="closeModal">✕</button>
+            </div>
+
+            <!-- Tab Navigation -->
+            <div class="tab-nav">
+                <button class="tab-btn active" id="uploadTabBtn">
+                    📤 Upload from Device
+                </button>
+                <button class="tab-btn" id="generateTabBtn">
+                    ✨ Generate AI Model
+                </button>
+            </div>
+
+            <!-- Modal Body -->
+            <div class="modal-body">
+                <!-- Upload Tab -->
+                <div class="tab-content active" id="uploadTabContent">
+                    <div class="upload-zone" id="uploadZone">
+                        <div class="upload-zone-icon">📸</div>
+                        <h4>Upload Model Photo</h4>
+                        <p>Click to browse and select an image from your device</p>
+                        <input type="file" id="modalFileInput" accept="image/*" style="display: none;">
+                    </div>
+                    <p style="text-align: center; margin-top: 16px; color: var(--text-muted); font-size: 0.85rem;">
+                        💡 Best results with clear, full-body photos on plain backgrounds
+                    </p>
+                </div>
+
+                <!-- Generate AI Model Tab -->
+                <div class="tab-content" id="generateTabContent">
+                    <form id="generateModelForm">
+                        <div class="generate-form">
+                            <!-- Row 1: Gender & Age -->
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="gender">Gender *</label>
+                                    <select id="gender" name="gender" required>
+                                        <option value="">Select gender</option>
+                                        <option value="Female">Female</option>
+                                        <option value="Male">Male</option>
+                                        <option value="Non-binary">Non-binary</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="age_range">Age Range *</label>
+                                    <select id="age_range" name="age_range" required>
+                                        <option value="">Select age range</option>
+                                        <option value="18-25">18-25 years</option>
+                                        <option value="26-35">26-35 years</option>
+                                        <option value="36-45">36-45 years</option>
+                                        <option value="46-60">46-60 years</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- Row 2: Ethnicity & Skin Tone -->
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="ethnicity">Ethnicity *</label>
+                                    <select id="ethnicity" name="ethnicity" required>
+                                        <option value="">Select ethnicity</option>
+                                        <option value="Caucasian">Caucasian</option>
+                                        <option value="African">African</option>
+                                        <option value="Asian">Asian</option>
+                                        <option value="Hispanic">Hispanic</option>
+                                        <option value="Middle Eastern">Middle Eastern</option>
+                                        <option value="Mixed">Mixed</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="skin_tone">Skin Tone *</label>
+                                    <select id="skin_tone" name="skin_tone" required>
+                                        <option value="">Select skin tone</option>
+                                        <option value="Fair">Fair</option>
+                                        <option value="Light">Light</option>
+                                        <option value="Medium">Medium</option>
+                                        <option value="Tan">Tan</option>
+                                        <option value="Brown">Brown</option>
+                                        <option value="Dark">Dark</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- Row 3: Body Type & Pose -->
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="body_type">Body Type *</label>
+                                    <select id="body_type" name="body_type" required>
+                                        <option value="">Select body type</option>
+                                        <option value="Slim">Slim</option>
+                                        <option value="Athletic">Athletic</option>
+                                        <option value="Average">Average</option>
+                                        <option value="Curvy">Curvy</option>
+                                        <option value="Plus-size">Plus-size</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="pose">Pose *</label>
+                                    <select id="pose" name="pose" required>
+                                        <option value="">Select pose</option>
+                                        <option value="Standing front">Standing (Front View)</option>
+                                        <option value="Standing side">Standing (Side View)</option>
+                                        <option value="Walking">Walking</option>
+                                        <option value="Sitting">Sitting</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- Row 4: Hair Style & Color -->
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="hair_style">Hair Style *</label>
+                                    <select id="hair_style" name="hair_style" required>
+                                        <option value="">Select hair style</option>
+                                        <option value="Short">Short</option>
+                                        <option value="Medium">Medium</option>
+                                        <option value="Long">Long</option>
+                                        <option value="Curly">Curly</option>
+                                        <option value="Straight">Straight</option>
+                                        <option value="Wavy">Wavy</option>
+                                        <option value="Bald">Bald</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="hair_color">Hair Color *</label>
+                                    <select id="hair_color" name="hair_color" required>
+                                        <option value="">Select hair color</option>
+                                        <option value="Black">Black</option>
+                                        <option value="Brown">Brown</option>
+                                        <option value="Blonde">Blonde</option>
+                                        <option value="Red">Red</option>
+                                        <option value="Gray">Gray</option>
+                                        <option value="White">White</option>
+                                        <option value="Dyed">Dyed (Colorful)</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- Row 5: Clothing Style -->
+                            <div class="form-group">
+                                <label for="clothing_style">Clothing Style *</label>
+                                <select id="clothing_style" name="clothing_style" required>
+                                    <option value="">Select clothing style</option>
+                                    <option value="Casual">Casual</option>
+                                    <option value="Business">Business/Formal</option>
+                                    <option value="Sporty">Sporty/Athletic</option>
+                                    <option value="Elegant">Elegant/Dressy</option>
+                                    <option value="Streetwear">Streetwear/Urban</option>
+                                </select>
+                            </div>
+
+                            <!-- Generate Button -->
+                            <button type="submit" class="generate-model-btn" id="generateModelBtn">
+                                ✨ Generate AI Model
+                            </button>
+                        </div>
+                    </form>
+
+                    <!-- Loading State -->
+                    <div class="modal-loading" id="modalLoading">
+                        <div class="spinner"></div>
+                        <p>Generating your AI model... This may take 15-30 seconds</p>
+                    </div>
+
+                    <!-- Preview Section -->
+                    <div class="model-preview" id="generatedModelPreview">
+                        <h4>✨ Generated Model Preview</h4>
+                        <div class="preview-image-container">
+                            <img id="generatedModelImage" alt="Generated AI Model">
+                        </div>
+                        <button type="button" class="use-model-btn" id="useModelBtn">
+                            ✓ Use This Model
+                        </button>
                     </div>
                 </div>
             </div>

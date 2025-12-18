@@ -5,6 +5,8 @@
 *.json
 !package.json
 !tsconfig.json
+.env/
+credentials/
 
 # Python
 __pycache__/
